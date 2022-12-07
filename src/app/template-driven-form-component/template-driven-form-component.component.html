@@ -1,0 +1,36 @@
+<p>template-driven-form-component works!</p>
+
+<label> <i>Informations générales</i></label>
+<form #userform="ngForm" (ngSubmit)="onSubmit(userform)">
+    <label>Nom</label>
+    <input #name="ngModel" [(ngModel)]="user.nom" required name="nom" class="form-control" type="text">
+    <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
+        <p *ngIf="name.errors?.['required']" style ="color:red">Name is required</p>
+    </div>
+    <br>
+    <label>Email</label>
+    <input #email="ngModel" [(ngModel)]="user.email" pattern="[a-zA-Z.]+[a-zA-Z]+@[a-zA-Z]+\.[a-zA-Z]{2,3}" required name="email" class="form-control" type="email">
+    <div class="alert alert-danger" *ngIf="email.touched && email.invalid">
+        <p *ngIf="email.errors?.['required']" style ="color:red">Email is required</p>
+        <p *ngIf="email.errors?.['pattern']" style ="color:red">Email invalid</p>
+    </div>
+    <label><i>Informations de payement</i></label>
+    <fieldset class="form-group">
+        <label>Type de carte</label>
+        <input #typeCarte="ngModel" [(ngModel)]="user.typeCarte" required name="typeCarte" class="form-control" type="text">
+        <br>
+
+        <label>Numero de carte</label> 
+        <input #numeroCarte="ngModel" [(ngModel)]="user.numeroCarte" minlength="16" maxlength="16" required name="numeroCarte" class="form-control" type="text">
+        
+        <br>
+        <label>Date d'expiration</label> 
+        <input #dateExpiration="ngModel" [(ngModel)]="user.dateExpiration" required name="dateExpiration" type="date"  class="form-control" type="text">
+        <br>
+        <label [hidden]="typeCarte.invalid || dateExpiration.invalid || numeroCarte.invalid">Code</label> 
+        <input #code="ngModel" [hidden]="typeCarte.invalid || dateExpiration.invalid || numeroCarte.invalid" [(ngModel)]="user.code" class="form-control" name="code" type="text">
+    </fieldset>
+    <br>
+    <button [disabled]="userform.invalid"   style ="color:#008CBA;">Submit</button>
+</form>
+
